@@ -1,4 +1,10 @@
+
 var osc = require('osc')
+var fs = require('fs')
+var KNN = require('ml-knn')
+
+var model = JSON.parse(fs.readFileSync('./model.json').toString())
+var knn = KNN.load(model)
 
 var udpPort = new osc.UDPPort({
     localAddress: "0.0.0.0",
@@ -11,9 +17,16 @@ udpPort.on("message", function (oscMsg) {
 	.split(',')
 	.slice(3)
 	.map(function (i) { return parseFloat(i); })
-
-    console.log(typeof msg, ' ', msg.length);
+    var ans = parseInt(knn.predict(msg))
+    switch {
+      case 0:
+       console.log('A!')
+      break;
+      case 1:
+        console.log('b')
+      break;
+    }
+    console.log()
 });
 
-udpPort.open();
-
+udpPort.open()

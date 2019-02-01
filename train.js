@@ -1,18 +1,22 @@
-var osc = require('osc')
 
-var udpPort = new osc.UDPPort({
-    localAddress: "0.0.0.0",
-    localPort: 57111,
-    metadata: true
-});
+var fs = require('fs')
+var KNN = require('ml-knn')
+var data = fs.readFileSync('./data.csv').toString()
 
-udpPort.on("message", function (oscMsg) {
-    var msg = oscMsg.args[0].value
-	.split(',')
-	.slice(3)
-	.map(function (i) { return parseFloat(i); })
+// no training required with kNN, just load csv and write out the model!
 
-});
+var dataset = []
+var predictions = []
 
-udpPort.open();
+data.split('\n').forEach(function (i) {
+  console.log(i)
+  // parse line
+  // add to dataset and predictions
+})
 
+var knn = new KNN(dataset, predictions)
+
+var model = knn.toJSON()
+
+// save model
+fs.writeFileSync('./model.json', JSON.stringify(model))
