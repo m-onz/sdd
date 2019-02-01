@@ -1,7 +1,9 @@
 
 # sdd
 
-## Version 1 - audio classification with bag of features + kNN
+## Version 1 - audio classification with bag of normalized features + kNN
+
+using ml-knn
 
 bag of features:
   MFCC (mel)
@@ -9,6 +11,10 @@ bag of features:
   etc
 
 real time classification using kNN
+
+## Version 2 - audio classification with bag of normalized features + ANN
+
+using brain.js
 
 ```
 
