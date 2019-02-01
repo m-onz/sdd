@@ -1,0 +1,22 @@
+{
+  "name": "sdd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-onz/sdd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/m-onz/sdd/issues"
+  },
+  "homepage": "https://github.com/m-onz/sdd#readme",
+  "dependencies": {
+    "libsvm-js": "^0.2.1",
+    "ml-kernel": "^2.3.4",
+    "osc": "^2.2.4"
+  }
+}
