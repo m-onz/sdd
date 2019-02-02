@@ -11,9 +11,7 @@ udpPort.on("message", function (oscMsg) {
 	.split(',')
 	.slice(3)
 	.map(function (i) { return parseFloat(i); })
-
     console.log(typeof msg, ' ', msg.length);
 });
 
 udpPort.open();
-

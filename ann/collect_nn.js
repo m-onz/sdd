@@ -22,27 +22,27 @@ var udpPort = new osc.UDPPort({
     metadata: true
 });
 
-var batch = []
-// var dataset = []
-// var predictions = []
-var dataset = JSON.parse(fs.readFileSync('./model-segment.json').toString())
-var predictions = JSON.parse(fs.readFileSync('./model-labels.json').toString())
-
-var si = setInterval(function () {
-  if (batch.length === 0) return;
-  var result = []
-  batch.forEach(function (b) {
-    b.forEach(function (i, index) {
-      result.push(i)
-    })
-  })
-  console.log(result.length)
-  dataset.push(result)
-  predictions.push(LABEL)
-  batch = [];
-}, 2000);
+// var batch = []
+var dataset = []
+var predictions = []
+// var dataset = JSON.parse(fs.readFileSync('./model-segment.json').toString())
+// var predictions = JSON.parse(fs.readFileSync('./model-labels.json').toString())
+// var si = setInterval(function () {
+//   if (batch.length === 0) return;
+//   var result = []
+//   batch.forEach(function (b) {
+//     b.forEach(function (i, index) {
+//       result.push(i)
+//     })
+//   })
+//   console.log(result.length)
+//   dataset.push(result)
+//   predictions.push(LABEL)
+//   batch = [];
+// }, 2000);
 
 console.log('recording')
+
 setTimeout(function () {
   console.log('stopped recording')
   clearInterval(si)
@@ -55,7 +55,9 @@ udpPort.on("message", function (oscMsg) {
 	.split(',')
 	.slice(3)
 	.map(function (i) { return clamp(Math.abs(parseFloat(i) * 0.9)); })
-  batch.push(msg)
+	console.log(msg)
+  dataset.push(msg)
+  predictions.push(LABEL)
 });
 
 udpPort.open();
