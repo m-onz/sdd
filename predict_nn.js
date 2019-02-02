@@ -1,10 +1,13 @@
 
 var osc = require('osc')
 var fs = require('fs')
-var KNN = require('ml-knn')
+var brain = require('brain.js')
 
-var model = JSON.parse(fs.readFileSync('./model.json').toString())
-var knn = KNN.load(model)
+var net = new brain.NeuralNetwork()
+
+var model = JSON.parse(fs.readFileSync('./model-nn.json').toString())
+
+net.fromJSON(model)
 
 var udpPort = new osc.UDPPort({
     localAddress: "0.0.0.0",
@@ -17,7 +20,7 @@ udpPort.on("message", function (oscMsg) {
 	.split(',')
 	.slice(3)
 	.map(function (i) { return parseFloat(i); })
-    var ans = parseInt(knn.predict([msg]))
+    var ans = net.run(msg.slice(0, 11))
     console.log(ans)
     // switch (ans) {
     //   case 0:

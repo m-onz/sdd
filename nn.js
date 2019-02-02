@@ -10,19 +10,20 @@ var config = {
 
 var net = new brain.NeuralNetwork(config);
 
-net.train([{input: { r: 0, g: 0, b: 0 }, output: { black: 1 }},
-           {input: { r: 0.6, g: 0.6, b: 0.6 }, output: { white: 1 }},
-           {input: { r: 1, g: 1, b: 1 }, output: { white: 1 }}]);
+net.train([{input: [0, 0], output: [0]},
+           {input: [0.3, 1.1], output: [1]},
+           {input: [0.1, 0], output: [1]},
+           {input: [0.1, 1], output: [0]}]);
 
-var output = net.run({ r: 0, g: 0, b: 0 });  // { white: 0.99, black: 0.002 }
+const output = net.run([0, 0]);
 
 console.log(output)
 
-console.log(net.toJSON())
-
+// console.log(net.toJSON())
 //
-var net2 = new brain.NeuralNetwork();
-
-net2.fromJSON(net.toJSON())
-
-console.log('2 ', net.run({ r: 0, g: 0, b: 0 }))
+// //
+// var net2 = new brain.NeuralNetwork();
+//
+// net2.fromJSON(net.toJSON())
+//
+// console.log('2 ', net.run({ r: 0, g: 0, b: 0 }))
