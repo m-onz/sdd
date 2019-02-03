@@ -2,8 +2,27 @@
 var fs = require('fs')
 var brain = require('brain.js')
 
-var dataset = JSON.parse(fs.readFileSync('./model-segment.json').toString())
-var predictions = JSON.parse(fs.readFileSync('./model-labels.json').toString())
+var negative = fs.readFileSync('../data/negative_data.csv').toString()
+var postitive = fs.readFileSync('../data/positive_data.csv').toString()
+
+var dataset = []
+var predictions = []
+
+negative.split('\n').forEach(function (line) {
+  line = line.split(',').map(function (i) {
+    return parseFloat(i)
+  })
+  dataset.push(line.slice(0, 15))
+  predictions.push(0)
+})
+
+postitive.split('\n').forEach(function (line) {
+  line = line.split(',').map(function (i) {
+    return parseFloat(i)
+  })
+  dataset.push(line.slice(0, 15))
+  predictions.push(1)
+})
 
 var config = {
     binaryThresh: 0.1,
@@ -14,8 +33,7 @@ var config = {
 var net = new brain.NeuralNetwork(config);
 var d = []
 dataset.forEach(function (i, index) {
-  var x = { input: i.slice(0, 11), output: [ predictions[index] ] }
-  // console.log(x)
+  var x = { input: i, output: [ predictions[index] ] }
   if (index < 1) console.log(x)
   d.push(x)
 })

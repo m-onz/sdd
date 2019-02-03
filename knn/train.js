@@ -4,8 +4,17 @@ var KNN = require('ml-knn')
 
 // no training required with kNN, just load csv and write out the model!
 
-var dataset = JSON.parse(fs.readFileSync('./model-segment.json').toString())
-var predictions = JSON.parse(fs.readFileSync('./model-labels.json').toString())
+var dir = fs.readdirSync('./data/batch')
+var dataset = []
+var predictions = []
+
+dir.forEach(function (i) {
+  var p = './data/batch/' + i
+  var label = parseInt(i.split('-')[0])
+  var x = JSON.parse(fs.readFileSync(p).toString())
+  dataset.push(x)
+  predictions.push(label)
+})
 
 var knn = new KNN(dataset, predictions)
 

@@ -15,38 +15,24 @@ var udpPort = new osc.UDPPort({
     metadata: true
 });
 
+function clamp (num) {
+	if (typeof num !== 'number' || Number.isNaN(num)) return 0
+		else if (num < 0) {
+      return 0
+    } else if (num > 1) {
+      return 1
+    } else {
+      return num;
+  }
+}
+
 udpPort.on("message", function (oscMsg) {
     var msg = oscMsg.args[0].value
-	.split(',')
-	.slice(3)
-	.map(function (i) { return parseFloat(i); })
-    var ans = net.run(msg.slice(0, 11))
+    .split(',')
+    .slice(3)
+    .map(function (i) { return clamp(Math.abs(parseFloat(i) * 0.9)); })
+    var ans = net.run(msg.slice(15))
     console.log(ans)
-    // switch (ans) {
-    //   case 0:
-    //    console.log('A!')
-    //   break;
-    //   case 1:
-    //     console.log('b')
-    //   break;
-    // }
-    // console.log()
 });
 
 udpPort.open()
-
-
-
-
-
-
-
-
-/*   msg[6] = round(clamp(msg[6] / 10000))
-   msg[7] = round(clamp(msg[7] / 3000))
-   msg[9] = round(clamp(msg[9] / 250))
-   msg[11] = round(clamp(msg[11] / 3000))
-   msg[12] = round(clamp(msg[12] / 6000))
-   msg[14] = round(clamp(msg[14] / 8000))
-  msg = msg.map(function (i) { return check(clamp(i)); })*/
-//  if (parseInt(msg[msg.length-1]) === 1) onset_count ++;

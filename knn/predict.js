@@ -12,13 +12,38 @@ var udpPort = new osc.UDPPort({
     metadata: true
 });
 
+function clamp (num) {
+	if (typeof num !== 'number' || Number.isNaN(num)) return 0
+		else if (num < 0) {
+      return 0
+    } else if (num > 1) {
+      return 1
+    } else {
+      return num;
+  }
+}
+
+var batch = []
+
+setInterval(function () {
+  if (!batch.length) return
+  var merged = []
+  batch.forEach(function (a) {
+    a.forEach(function (b) {
+      merged.push(b)
+    })
+  })
+  var ans = parseInt(knn.predict([merged]))
+  console.log(ans)
+  batch = []
+}, 1000)
+
 udpPort.on("message", function (oscMsg) {
     var msg = oscMsg.args[0].value
-	.split(',')
-	.slice(3)
-	.map(function (i) { return parseFloat(i); })
-    var ans = parseInt(knn.predict([msg]))
-    console.log(ans)
+    .split(',')
+  	.slice(3)
+  	.map(function (i) { return clamp(Math.abs(parseFloat(i) * 0.9)); })
+    batch.push(msg)
     // switch (ans) {
     //   case 0:
     //    console.log('A!')
